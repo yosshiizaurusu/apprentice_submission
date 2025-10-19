@@ -36,12 +36,6 @@ while ($draw) {
     $top_card1 = $player1->putCard();
     $top_card2 = $player2->putCard();
 
-    echo $top_card1 . "\n";//確認用
-    echo $top_card2 . "\n";//確認用
-
-    //注意：カードを捨てる動作はまだ実装していない
-    //プレイヤーの出したトランプのマークと数字(１１以上はアルファベット)を出力するところまで完了
-
     if ($top_card1 > $top_card2) {
         echo "プレイヤー1が勝ちました。\n戦争を終了します。\n";
         $draw = false;//ループ終了
@@ -49,6 +43,6 @@ while ($draw) {
         echo "プレイヤー2が勝ちました。\n戦争を終了します。\n";
         $draw = false;//ループ終了
     } else {
-        echo "引き分けです\n";
+        echo "引き分けです。\n";
     }
 }
