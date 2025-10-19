@@ -1,56 +1,8 @@
 <?php
-class Player 
-{
-    public $name;
-    public $cards;
-    public $getcards;
 
-    public function __construct($name) {
-        $this->name = $name;
-    }
+require_once 'player.php';
 
-    public function putCard() {
-        $top_card = array_pop($this->cards);
-
-        /*
-        13で割った商が0,1,2,3の時それぞれハート、ダイヤ、スペード、クローバーとする
-        そして、余りをカードの数字に対応させる
-        ただし余りが0の場合は商を1減らし、余りを13増やす
-        例えば26は1余り13と考えることで、ダイヤの13に対応させる
-        さらに、余りが1の場合は余りを13増やす
-        こうすることで、A、K、Q、J、10、9、8、7、6、5、4、3、2の
-        順番に調整する
-        ややこしすぎ、絶対もっと良い方法ある
-        */
-
-        $card_mark = intdiv($top_card, 13);
-        $card_number = $top_card % 13;
-
-        //余りが0の場合は商を1減らし、余りを13増やすための処理
-        if ($card_number == 0) {
-            $card_number = 13;
-            $card_mark--;
-        }
-
-        //余りが1の場合は余りを13増やすための処理
-        if ($card_number == 1) $card_number = 14;
-
-        //13で割った商が0,1,2,3の時それぞれハート、ダイヤ、スペード、クローバーとするための配列
-        $card_mark_list = ["ハート", "ダイヤ", "スペード", "クローバー"];
-
-        if ($card_number <= 10) {
-            //10以下の場合はそのまま数字を出力
-            echo "{$this->name}のカードは{$card_mark_list[$card_mark]}の{$card_number}です。\n";
-        } else {
-            //11以上の場合は対応するアルファベットを出力
-            $card_alphabet_list = ["J", "Q", "K", "A"];
-            $card_alphabet = $card_number % 11;
-            echo "{$this->name}のカードは{$card_mark_list[$card_mark]}の{$card_alphabet_list[$card_alphabet]}です。\n";
-        }
-
-        return $card_number;
-    }
-}
+use MyProject\Player;
 
 $player1 = new Player("プレイヤー1");
 $player2 = new Player("プレイヤー2");
@@ -100,4 +52,3 @@ while ($draw) {
         echo "引き分けです\n";
     }
 }
-
