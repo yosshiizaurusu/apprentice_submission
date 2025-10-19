@@ -55,6 +55,7 @@ class Player
             echo "{$this->name}のカードは{$card_mark_list[$card_mark]}の{$card_alphabet_list[$card_alphabet]}です。\n";
         }
 
+        //場に出したカードを返す
         return $card_number;
     }
 }
