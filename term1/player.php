@@ -4,9 +4,11 @@ namespace MyProject;
 
 class Player
 {
-    public $name;
-    public $cards;
-    public $getcards;
+    public $name;//プレイヤー名
+    public $cards;//手持ちのカード
+    public $received_cards = [];//もらった場札
+    public $final_cards;//勝負が終わった時のカードの枚数
+    public $ranking;//順位
 
     public function __construct($name)
     {
@@ -15,6 +17,7 @@ class Player
 
     public function putCard()
     {
+        //場に出したカードを出力するメソッド
         $top_card = array_pop($this->cards);
 
         /*
@@ -55,7 +58,21 @@ class Player
             echo "{$this->name}のカードは{$card_mark_list[$card_mark]}の{$card_alphabet_list[$card_alphabet]}です。\n";
         }
 
-        //場に出したカードを返す
-        return $card_number;
+        //そのままの数字と、場に出したカードの数字、両方で返す
+        return [$top_card, $card_number];
+    }
+
+    public function getCards($filed_cards)
+    {
+        //勝ったときに、場札をもらうメソッド
+        $this->received_cards = array_merge($this->received_cards, $filed_cards);
+    }
+
+    public function addCards()
+    {
+        //手札が0枚の時にもらった場札シャッフルし、手札に加えるメソッド
+        shuffle($this->received_cards);
+        $this->cards = $this->received_cards;
+        $this->received_cards = [];
     }
 }
