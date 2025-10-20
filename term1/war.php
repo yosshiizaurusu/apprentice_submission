@@ -31,9 +31,10 @@ for ($i = 1; $i <= $num_of_players; $i++) {
     array_push($list_of_players, $player);
 }
 
-$all = [];//すべてのトランプ(52枚)
-for ($i = 1; $i <= 52; $i++) {
-    array_push($all, $i); //1~52の数字をトランプに対応させる
+$all = [];//すべてのトランプ(53枚)
+$num_of_all = 53;
+for ($i = 1; $i <= $num_of_all; $i++) {
+    array_push($all, $i); //1~53の数字をトランプに対応させる(53はジョーカー)
 }
 
 shuffle($all); //トランプをシャッフル
@@ -41,7 +42,7 @@ shuffle($all); //トランプをシャッフル
 echo "戦争を開始します。\n";
 
 //カードを配る
-for ($i = 0; $i < 52; $i++) {
+for ($i = 0; $i < $num_of_all; $i++) {
     $who_gets_card = $i % $num_of_players;
     array_push($list_of_players[$who_gets_card]->cards, $all[$i]);
 }
@@ -55,7 +56,7 @@ $field_cards = [];//場札
 while (!($is_result_decided)) {//勝敗が決まればループ終了
     echo "戦争!\n";
     $raw_nums = [];//そのターンに出した、そのままの数字
-    $card_nums = [];//そのターンに出した、カードの数字
+    $card_nums = [];//そのターンに出した、カードの数字(ジョーカーは53)
     foreach ($list_of_players as $player) {
         $num_list = $player->putCard();
         array_push($raw_nums, $num_list[0]);
@@ -68,16 +69,28 @@ while (!($is_result_decided)) {//勝敗が決まればループ終了
 
     //$card_nums = [プレイヤー1のカードの数字、プレイヤー2のカードの数字、・・・、プレイヤーnのカードの数字]
 
+    /*
+    勝敗の判定：
+    カードの数字を大きい順に並べた配列で、一番大きい数字がふたつ以上ないかの確認
+    一番大きい数字がA（14）でふたつあり、かつスペードのAがあるときは、スペードのAが勝ち
+    その場合以外で、同じ数字が2つあったらやり直し
+    なかったら勝敗を判定
+    */
     $sorted_card_nums = $card_nums;
     sort($sorted_card_nums);
-
     if ($sorted_card_nums[$num_of_players - 1] == $sorted_card_nums[$num_of_players - 2]) {
-        /*
-        カードの数字を大きい順に並べた配列で、一番大きい数字がふたつ以上ないかの確認
-        あったらやり直し
-        なかったら勝敗を判定
-        */
-        echo "引き分けです。\n";
+        $a_num = 14;
+        $spades_a_num = 27;
+        if ($sorted_card_nums[$num_of_players - 1] == $a_num && in_array($spades_a_num, $raw_nums)) {
+            echo "スペードのAは世界一\n";
+            $who_is_world_best = array_search($spades_a_num, $raw_nums);
+            $list_of_players[$who_is_world_best]->getCards($field_cards);
+            $field_cards = [];
+            echo "{$list_of_players[$who_is_world_best]->name}が勝ちました。";
+            echo "{$list_of_players[$who_is_world_best]->name}はカードを{$num_of_field_cards}枚もらいました。\n";
+        } else {
+            echo "引き分けです。\n";
+        }
     } else {
         $max_card_num = array_pop($sorted_card_nums);
         for ($i = 0; $i < $num_of_players; $i++) {
