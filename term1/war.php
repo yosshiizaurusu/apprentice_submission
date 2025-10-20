@@ -70,7 +70,7 @@ while (!($is_result_decided)) {//勝敗が決まればループ終了
     if ($player2->cards == [] && $player2->received_cards != []) {
         $player2->addCards();
     }
-    
+
     if ($player1->cards == [] && $player1->received_cards == []) {
         echo "{$player1->name}の手札がなくなりました。\n";
         $is_result_decided = true;
@@ -79,7 +79,6 @@ while (!($is_result_decided)) {//勝敗が決まればループ終了
         echo "{$player2->name}の手札がなくなりました。\n";
         $is_result_decided = true;
     }
-
 }
 
 $player1->final_cards = count($player1->cards) + count($player1->received_cards);
