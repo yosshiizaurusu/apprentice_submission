@@ -54,7 +54,7 @@ while (!($is_result_decided)) {//勝敗が決まればループ終了
 
     $sorted_card_nums = $card_nums;
     sort($sorted_card_nums);
-        
+
     if ($sorted_card_nums[$num_of_players - 1] == $sorted_card_nums[$num_of_players - 2]) {
         /*
         カードの数字を大きい順に並べた配列で、一番大きい数字がふたつ以上ないかの確認
@@ -68,7 +68,8 @@ while (!($is_result_decided)) {//勝敗が決まればループ終了
             if ($card_nums[$i] == $max_card_num) {
                 $list_of_players[$i]->getCards($field_cards);
                 $field_cards = [];
-                echo "{$list_of_players[$i]->name}が勝ちました。{$list_of_players[$i]->name}はカードを{$num_of_field_cards}枚もらいました。\n";
+                echo "{$list_of_players[$i]->name}が勝ちました。";
+                echo "{$list_of_players[$i]->name}はカードを{$num_of_field_cards}枚もらいました。\n";
                 break;
             }
         }
@@ -86,7 +87,8 @@ while (!($is_result_decided)) {//勝敗が決まればループ終了
 }
 
 for ($i = 0; $i < $num_of_players; $i++) {
-    $list_of_players[$i]->final_cards = count($list_of_players[$i]->cards) + count($list_of_players[$i]->received_cards);
+    $list_of_players[$i]->final_cards = count($list_of_players[$i]->cards)
+                                      + count($list_of_players[$i]->received_cards);
 }
 
 $result = [];//$result[$i]は$list_of_players[$i]->final_cards
