@@ -5,7 +5,7 @@ namespace MyProject;
 class Player
 {
     public $name;//プレイヤー名
-    public $cards;//手持ちのカード
+    public $cards = [];//手持ちのカード
     public $received_cards = [];//もらった場札
     public $final_cards;//勝負が終わった時のカードの枚数
     public $ranking;//順位
@@ -62,10 +62,10 @@ class Player
         return [$top_card, $card_number];
     }
 
-    public function getCards($filed_cards)
+    public function getCards($field_cards)
     {
         //勝ったときに、場札をもらうメソッド
-        $this->received_cards = array_merge($this->received_cards, $filed_cards);
+        $this->received_cards = array_merge($this->received_cards, $field_cards);
     }
 
     public function addCards()
