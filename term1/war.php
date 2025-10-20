@@ -7,6 +7,22 @@ use MyProject\Player;
 echo "プレイヤーの人数を入力してください（2～5）：";
 $num_of_players = trim(fgets(STDIN));
 
+//期待する入力ではないときの対処
+if (!(is_numeric($num_of_players))) {
+    echo "数字を入力してください\n";
+    exit(0);
+}
+
+if ((int)$num_of_players != $num_of_players) {
+    echo "整数を入力してください。\n";
+    exit(0);
+}
+
+if ($num_of_players < 2 || $num_of_players > 5) {
+    echo "2～5の数字で入力してください。\n";
+    exit(0);
+}
+
 $list_of_players = [];
 for ($i = 1; $i <= $num_of_players; $i++) {
     echo "プレイヤー{$i}の名前を入力してください：";
